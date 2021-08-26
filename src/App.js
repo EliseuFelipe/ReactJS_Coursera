@@ -3,6 +3,7 @@ import { Navbar, NavbarBrand } from 'reactstrap';
 import Menu from './components/MenuComponent';
 
 function App() {
+  
   return (
     <div>
       <Navbar dark color="primary">
