@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle} from 'reactstrap';
 
-class DishDetail extends Component {
 
-    renderDish(dish){
+    function RenderDish({dish}){
         if(dish != null){
             return (
                 <Card className="col-12 col-md-5 m-1">
@@ -18,34 +17,30 @@ class DishDetail extends Component {
 
         else{
             return (
-                
-                <div>{console.log("dish null")}</div>
+                <div></div>
             )
         }
-    };
+    }
 
-    renderComments(comments){
+    function RenderComments(comments){
 
         if(comments !== -1){
+        
+            const menu = comments.comments.map((comment) => {
+                return (
+                    <div>
+                        <li>{comment.comment}</li><br></br>
+                        <li>-- {comment.author}, {new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</li><br></br>
+                    </div>
+                );
+            });
+
             return (
                 <div>
                     <ul className="list-unstyled">
                         <h4>Comments</h4>
 
-                        <li>{comments[0].comment}</li><br></br>
-                        <li>-- {comments[0].author}, {new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comments[0].date)))}</li><br></br>
-
-                        <li>{comments[1].comment}</li><br></br>
-                        <li>-- {comments[1].author}, {comments[0].date}</li><br></br>
-
-                        <li>{comments[2].comment}</li><br></br>
-                        <li>-- {comments[2].author}, {comments[0].date}</li><br></br>
-
-                        <li>{comments[3].comment}</li><br></br>
-                        <li>-- {comments[3].author}, {comments[0].date}</li><br></br>
-
-                        <li>{comments[4].comment}</li><br></br>
-                        <li>-- {comments[4].author}, {comments[0].date}</li>
+                        {menu}
                     
                     </ul>
                 </div>
@@ -57,29 +52,37 @@ class DishDetail extends Component {
                 <div></div>
             )
         }
-    };
+    }
 
-    CommentsVerification(dish){
-        if(dish!=null){
+    function CommentsVerification(dish){
+        if(dish!==null){
             return dish.comments;
         }
         else{
             return -1;
         }
-    };
-
-    render() {
-        return(
-            <div className="container">
-                <div className="row">
-                    {this.renderDish(this.props.dish)}
-
-                    {this.renderComments(this.CommentsVerification(this.props.dish))}
-
-                </div>
-            </div>
-        );
     }
-}
+
+    const DishDetail = (props) => {
+        if(props.dish != null){
+            return(
+                <div className="container">
+                    <div className="row">
+                        
+                        <RenderDish dish={props.dish} />
+
+                        <RenderComments comments={CommentsVerification(props.dish)}/>
+
+                    </div>
+                </div>
+            );
+        }
+        else{
+            return(
+                <div></div>
+            );
+        }
+    }
+
 
 export default DishDetail;
